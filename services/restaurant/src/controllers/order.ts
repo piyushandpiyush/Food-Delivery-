@@ -447,7 +447,7 @@ export const getCurrentOrderForRider = TryCatch(async (req, res) => {
   }
 
   const order = await Order.findOne({
-    riderId,
+    riderId: riderId as string,
     status: { $ne: "delivered" },
   }).populate("restaurantId");
 
