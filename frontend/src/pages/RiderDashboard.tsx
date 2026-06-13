@@ -370,13 +370,13 @@ const RiderDashboard = () => {
         </div>
       </div>
 
-      {!audioUnlocked && (
+      <div className="mx-auto max-w-md px-4">
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">🔔</span>
+            <span className="text-2xl">{audioUnlocked ? "🔔" : "🔕"}</span>
             <div>
               <p className="font-medium text-blue-900">
-                Enable Sound Notification
+                Sound Notification {audioUnlocked ? "Enabled" : "Disabled"}
               </p>
               <p className="text-sm text-blue-700">
                 Get Notified when new orders arrive
@@ -384,14 +384,23 @@ const RiderDashboard = () => {
             </div>
           </div>
 
-          <button
-            onClick={unlockAudio}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition"
-          >
-            Enable sound
-          </button>
+          {audioUnlocked ? (
+            <button
+              onClick={() => setAudioUnlocked(false)}
+              className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium transition"
+            >
+              Disable sound
+            </button>
+          ) : (
+            <button
+              onClick={unlockAudio}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition"
+            >
+              Enable sound
+            </button>
+          )}
         </div>
-      )}
+      </div>
 
       {profile.isAvailble && incomingOrders.length > 0 && (
         <div className="mx-auto max-w-md px-4 space-y-3">
