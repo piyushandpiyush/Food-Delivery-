@@ -4,7 +4,7 @@ import { useSocket } from "../context/SocketContext";
 import axios from "axios";
 import { riderService } from "../main";
 import toast from "react-hot-toast";
-import { BiUpload } from "react-icons/bi";
+import { BiUpload, BiLogOut } from "react-icons/bi";
 import type { IOrder } from "../types";
 import audio from "../assets/faaah.mp3";
 import RiderOrderRequest from "../components/RiderOrderRequest";
@@ -22,8 +22,15 @@ interface IRider {
 }
 
 const RiderDashboard = () => {
-  const { user } = useAppData();
+  const { user, setUser, setIsAuth } = useAppData();
   const { socket } = useSocket();
+
+  const logoutHandler = () => {
+    localStorage.setItem("token", "");
+    setUser(null);
+    setIsAuth(false);
+    toast.success("Logout Success");
+  };
 
   const [profile, setProfile] = useState<IRider | null>(null);
   const [loading, setLoading] = useState(true);
@@ -247,7 +254,16 @@ const RiderDashboard = () => {
     return (
       <div className="min-h-screen bg-gray-50 px-4 py-6">
         <div className="mx-auto max-w-lg rounded-xl bg-white p-6 shadow-sm space-y-5">
-          <h1 className="text-xl font-semibold">Add Your Profile</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-xl font-semibold">Add Your Profile</h1>
+            <button
+              onClick={logoutHandler}
+              className="flex items-center gap-1 text-sm font-medium text-red-600 hover:text-red-700"
+            >
+              <BiLogOut className="h-5 w-5" />
+              Logout
+            </button>
+          </div>
           <input
             type="number"
             placeholder="Aadhar number"
@@ -296,6 +312,15 @@ const RiderDashboard = () => {
     <div className="space-y-4">
       <div className="mx-auto max-w-md px-4 py-4">
         <div className="rounded-xl bg-white p-4 shadow space-y-3">
+          <div className="flex justify-end">
+            <button
+              onClick={logoutHandler}
+              className="flex items-center gap-1 text-sm font-medium text-red-600 hover:text-red-700"
+            >
+              <BiLogOut className="h-5 w-5" />
+              Logout
+            </button>
+          </div>
           <img
             src={profile.picture}
             className="mx-auto h-24 w-24 rounded-full object-cover"
